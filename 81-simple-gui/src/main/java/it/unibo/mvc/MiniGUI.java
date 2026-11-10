@@ -1,8 +1,11 @@
 package it.unibo.mvc;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -14,8 +17,8 @@ import java.util.Random;
  * This class is a simple application that writes a random number on a file.
  *
  * <p>
- * This application does not exploit the model-view-controller pattern, and as
- * such is just to be used to learn the basics, not as a template for your
+ * This application DOES NOT exploit the model-view-controller pattern, and as
+ * such is just to be used to learn the basics, NOT AS A TEMPLATE for your
  * applications.
  */
 public class MiniGUI {
@@ -25,15 +28,30 @@ public class MiniGUI {
     private final Random randomGenerator = new Random();
     private final JFrame frame = new JFrame(TITLE);
 
+    /* ## Do
+    ### Part 1
+    1. Create a new `JPanel`
+    2. Use an horizontal `BoxLayout` as layout
+    3. Set the new `JPanel` as the only content of the center of the previously existing `BorderLayout`
+    4. Add the `JButton` to the new panel
+    5. Test your application: it should appear similar, but the button will get smaller
+    6. In `display()`, use `JFrame.pack()` to resize the frame to the minimum size prior to displaying */ 
+
     /**
      * Creates a new {@link MiniGUI}.
      */
-    public MiniGUI() {
-        final JPanel canvas = new JPanel();
+    public MiniGUI() { 
+        final JPanel canvas = new JPanel(); //due panelli uno nell'altro esterno e interno rispettivamente canva e mycanva 
+        final JPanel Mycanvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+        Mycanvas.setLayout(new BoxLayout(Mycanvas, BoxLayout.X_AXIS)); //container e' il panel in cui inserisco il box layout
         final JButton write = new JButton("Print a random number on standard output");
-        canvas.add(write, BorderLayout.CENTER);
-        frame.setContentPane(canvas);
+        //canvas.add(write, BorderLayout.CENTER);
+        Mycanvas.add(write);
+        JLabel result = new JLabel("Result");
+        canvas.add(result, BorderLayout.NORTH); //leggi accuratamente la consegna
+        canvas.add(Mycanvas);
+        frame.setContentPane(canvas); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Handlers
@@ -41,7 +59,10 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                IO.println(randomGenerator.nextInt());
+                int number; 
+                number=randomGenerator.nextInt();
+                IO.println(number);
+                result.setText(Integer.toString(number)); 
             }
         });
     }
